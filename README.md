@@ -52,6 +52,25 @@ Por fim, aprendemos e utilizamos alguns comandos básicos no Prompt de Comando (
     - Linguagens: Dart
     - Ambientes: Mac, Win, Linux
  
+## Preparação do Ambiente de desenvolvimento
 
+### Instalação do FlutterSDK
+- Download do arquivo ZIP na página flutter.dev
+- inclusão do flutter na pasta C:\src
+- inclusão do flutter\bin nas varáveis de ambiente
+- teste o flutter --version
+
+### Instalação do AndroidSDK
+- download do Android SDK - Command Line Tools
+- adicionar o Command-line ao c:\src\AndroidSDK
+- adicionar o SDKManager as variáveis de ambiente
+    - emulador
+    - platforms
+    - platform-tools
+    - build tools
+- adicionar o ADB e o Emulator as variaveis de ambiente
+
+- Criação da Imagem do Emulador
+- Build do Emulador
 
 
