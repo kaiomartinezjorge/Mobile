@@ -46,11 +46,11 @@ Por fim, aprendemos e utilizamos alguns comandos básicos no Prompt de Comando (
         - Linguagens: JavaScript / TypeScript
         - Ambientes: Mac, Win, Linux
     
-    - Flutter
-        - SDK: Flutter SDK
-        - IDE: VSCode, Android Studio
-        - Linguagens: Dart
-        - Ambientes: Mac, Win, Linux
+- Flutter
+    - SDK: Flutter SDK
+    - IDE: VSCode, Android Studio
+    - Linguagens: Dart
+    - Ambientes: Mac, Win, Linux
  
 
 
