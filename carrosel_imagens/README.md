@@ -1,3 +1,3 @@
-# carrosel_imagens
+# carrossel_imagens
 
 A new Flutter project.
