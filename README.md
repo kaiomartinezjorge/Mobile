@@ -100,4 +100,29 @@ Por fim, aprendemos e utilizamos alguns comandos básicos no Prompt de Comando (
         - flutter pub outdated ( verifica se as dependências estão desatualizadas)
         - flutter pub upgrade ( atualiza as dependências do flutter pub)
 
+### ***Estrutura de um aplicativo***
 
+#### A hierarquia de árvore
+
+Gráfico com Demonstração da Hierarquia
+
+```mermaid
+
+graph BT
+
+    MA['MaterialAPP']
+    STL['StateLess Widget']
+    STF['StateFul Widget']
+    SC['Scaffold']
+    ABar['AppBar']
+    BD["Body"]
+    BNBar["BottonNavigationBar"]
+    DW["Drawer"]
+    FAB["FloatActionButton"]
+    SB["SnackBar"]
+
+    MA --> STL & STF
+    STF & STL --> SC
+    SC --> BD & BNBar & DW & FAB & SB
+
+```
