@@ -123,6 +123,6 @@ graph BT
 
     MA --> STL & STF
     STF & STL --> SC
-    SC --> BD & BNBar & DW & FAB & SB
+    SC --> ABar & BD & BNBar & DW & FAB & SB
 
 ```
