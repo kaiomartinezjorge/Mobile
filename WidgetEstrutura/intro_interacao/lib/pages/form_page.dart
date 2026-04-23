@@ -295,8 +295,8 @@ class _FormPageState extends State<FormPage> {
                           ]
                           .map(
                             (cidade) => DropdownMenuItem(
-                              child: Text(cidade),
                               value: cidade,
+                              child: Text(cidade),
                             ),
                           )
                           .toList(),
