@@ -1,19 +1,23 @@
 class Atendimento {
   int? id; //Pode ser nulo incialmente
   int pacienteId;
-  String dataAtendimento;
+  String data;
+  String hora;
   String descricaoProcedimento;
+  String dentesEnvolvidos;
   String observacoes;
-  String valor;
+  double valorCobrado;
 
   //Construtor
   Atendimento({
     this.id,
     required this.pacienteId,
-    required this.dataAtendimento,
+    required this.data,
+    required this.hora,
     required this.descricaoProcedimento,
+    required this.dentesEnvolvidos,
     required this.observacoes,
-    required this.valor,
+    required this.valorCobrado,
   });
 
   //Mapeamento de dados do BD
@@ -22,10 +26,12 @@ class Atendimento {
     return {
       'id': id,
       'paciente_id': pacienteId,
-      'dataAtendimento': dataAtendimento,
+      'data': data,
+      'hora': hora,
       'descricao_procedimento': descricaoProcedimento,
+      'dentes_envolvidos': dentesEnvolvidos,
       'observacoes': observacoes,
-      'valor': valor,
+      'valor_cobrado': valorCobrado,
     };
   }
 
@@ -34,10 +40,12 @@ class Atendimento {
     return Atendimento(
       id: map["id"],
       pacienteId: map["paciente_id"],
-      dataAtendimento: map["dataAtendimento"],
+      data: map["data"],
+      hora: map["hora"],
       descricaoProcedimento: map["descricao_procedimento"],
-      observacoes: map["observacoes"],
-      valor: map["valor"],
+      dentesEnvolvidos: map["dentes_envolvidos"] ?? '',
+      observacoes: map["observacoes"] ?? '',
+      valorCobrado: (map["valor_cobrado"] as num).toDouble(),
     );
   }
 }

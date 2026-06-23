@@ -442,15 +442,15 @@ sequenceDiagram
 
 ### 6.1 Tabela `pacientes`
 
-| Campo                  | Tipo    | Restricao                      |
-| ---------------------- | ------- | ------------------------------ |
-| id                     | INTEGER | Chave primaria, autoincremento |
-| nome_completo          | TEXT    | Obrigatorio                    |
-| cpf                    | TEXT    | Obrigatorio, unico             |
-| data_nascimento        | TEXT    | Obrigatorio                    |
-| telefone               | TEXT    | Obrigatorio                    |
-| email                  | TEXT    | Opcional                       |
-| procedimento_realizado | TEXT    | Opcional                       |
+| Campo           | Tipo    | Restricao                      |
+| --------------- | ------- | ------------------------------ |
+| id              | INTEGER | Chave primaria, autoincremento |
+| nome            | TEXT    | Obrigatorio                    |
+| cpf             | TEXT    | Obrigatorio, unico             |
+| dataNascimento  | TEXT    | Obrigatorio                    |
+| telefone        | TEXT    | Obrigatorio                    |
+| email           | TEXT    | Opcional                       |
+| historicoMedico | TEXT    | Opcional                       |
 
 ---
 
@@ -463,6 +463,7 @@ sequenceDiagram
 | data                   | TEXT    | Obrigatorio                        |
 | hora                   | TEXT    | Obrigatorio                        |
 | descricao_procedimento | TEXT    | Obrigatorio                        |
+| dentes_envolvidos      | TEXT    | Opcional                           |
 | observacoes            | TEXT    | Opcional                           |
 | valor_cobrado          | REAL    | Obrigatorio, maior ou igual a zero |
 
@@ -510,3 +511,85 @@ sequenceDiagram
 | ------------ | ------------------- | ---------- | ---------- |
 | Professor(a) |                     |            |            |
 | Aluno        | Kaio Martinez Jorge | 2026-06-11 |            |
+
+---
+
+## 10. Guia de Execucao do Projeto
+
+### 10.1 Pre-requisitos
+
+- Flutter SDK instalado e configurado no PATH;
+- Android Studio ou VS Code com extensoes Flutter/Dart;
+- Emulador Android ou dispositivo fisico conectado;
+- Dependencias do projeto declaradas no `pubspec.yaml`.
+
+### 10.2 Como Rodar
+
+No terminal, dentro da pasta do projeto:
+
+```bash
+flutter pub get
+flutter run
+```
+
+Para analisar o codigo:
+
+```bash
+flutter analyze
+```
+
+Para formatar os arquivos Dart:
+
+```bash
+dart format lib
+```
+
+### 10.3 Dependencias Utilizadas
+
+- `flutter`: desenvolvimento da interface mobile;
+- `sqflite`: persistencia local com SQLite;
+- `path`: montagem do caminho local do banco de dados;
+- `flutter_lints`: regras de qualidade e padronizacao do codigo.
+
+### 10.4 Funcionalidades Implementadas
+
+- cadastrar pacientes;
+- listar pacientes cadastrados;
+- editar dados cadastrais do paciente;
+- excluir paciente e seus atendimentos vinculados;
+- validar campos obrigatorios no cadastro;
+- impedir CPF duplicado;
+- impedir data de nascimento futura;
+- visualizar prontuario completo do paciente;
+- registrar atendimento odontologico;
+- editar atendimento registrado;
+- excluir atendimento registrado;
+- validar data, hora, descricao e valor do atendimento;
+- impedir valor cobrado negativo;
+- persistir dados localmente com SQLite;
+- exibir mensagens de sucesso e erro ao usuario.
+
+### 10.5 Organizacao do Codigo
+
+| Pasta/Arquivo       | Responsabilidade                                  |
+| ------------------- | ------------------------------------------------- |
+| `lib/model`         | Classes de dados `Paciente` e `Atendimento`       |
+| `lib/database`      | Configuracao e operacoes SQLite                   |
+| `lib/controller`    | Regras de acesso entre telas e banco de dados     |
+| `lib/view`          | Telas, formularios, listagens e navegacao         |
+| `lib/main.dart`     | Inicializacao do aplicativo Flutter               |
+| `README.md`         | Documentacao SRS e instrucoes de execucao         |
+
+### 10.6 Checklist de Avaliacao
+
+- [x] Aplicacao Flutter com widgets interativos;
+- [x] Modelagem de entidades do sistema;
+- [x] Persistencia local com SQLite e `sqflite`;
+- [x] Cadastro, visualizacao, edicao e exclusao de registros;
+- [x] Relacionamento entre paciente e atendimentos;
+- [x] Atualizacao dinamica da interface com `setState` e `FutureBuilder`;
+- [x] Separacao em models, controllers, database e views;
+- [x] Validacoes e tratamento basico de excecoes;
+- [x] Feedback ao usuario com `SnackBar`;
+- [x] README com documentacao em padrao ISO/IEC/IEEE 29148:2018;
+- [x] README com instrucoes para executar o projeto.

@@ -4,20 +4,14 @@ import 'package:sa_clinica_sqlite/model/paciente.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
-  //Transforma essa classe em singleton
-  //não permite instanciar outro obj enquanto um obj estiver ativo
   static final DatabaseHelper _instance = DatabaseHelper._internal();
 
-  //Construir o Singleton
-  // essa Classe não Possui um Construtor Normal,
-  //ele Precisa do factory para estabelecer a conexão
   DatabaseHelper._internal();
+
   factory DatabaseHelper() => _instance;
 
-  //Conector do Banco de Dados
-  Database? _database; //Privado
+  Database? _database;
 
-  //get database
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDb();
@@ -25,58 +19,121 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDb() async {
-    //pegar o armazenamento do banco
-    String path = join(await getDatabasesPath(), "petshop.db");
-    return await openDatabase(
+    final path = join(await getDatabasesPath(), "clinica_odontologica.db");
+
+    return openDatabase(
       path,
       version: 1,
+      onConfigure: (db) async {
+        await db.execute("PRAGMA foreign_keys = ON");
+      },
       onCreate: (db, version) async {
         await db.execute('''CREATE TABLE pacientes(
-          id INTEGER PRIMARY KEY AUTOINCREMENT, 
-          nome TEXT, 
-          email TEXT, 
-          telefone TEXT)''');
-        await db.execute(
-          '''CREATE TABLE atendimentos(
-          id INTEGER PRIMARY KEY AUTOINCREMENT, 
-          paciente_id INTEGER, 
-          dataAtendimento TEXT, 
-          descricao_procedimento TEXT, 
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          nome TEXT NOT NULL,
+          cpf TEXT NOT NULL UNIQUE,
+          dataNascimento TEXT NOT NULL,
+          email TEXT,
+          telefone TEXT NOT NULL,
+          historicoMedico TEXT)''');
+
+        await db.execute('''CREATE TABLE atendimentos(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          paciente_id INTEGER,
+          data TEXT NOT NULL,
+          hora TEXT NOT NULL,
+          descricao_procedimento TEXT NOT NULL,
+          dentes_envolvidos TEXT,
           observacoes TEXT,
-          FOREIGN KEY(paciente_id) REFERENCES pacientes(id) ON DELETE CASCADE)''',
-        );
+          valor_cobrado REAL NOT NULL,
+          FOREIGN KEY(paciente_id) REFERENCES pacientes(id) ON DELETE CASCADE)''');
       },
-      onConfigure: (db) async =>
-          await db.execute("PRAGMA foreign_keys = ON"), //delete on CASCADE
     );
   }
 
-  //Métodos CRUD Simplificados
-  //inserir paciente no BD
-  Future<int> insertPaciente(Paciente paciente) async =>
-      (await database).insert("pacientes", paciente.toMap());
+  Future<int> insertPaciente(Paciente paciente) async {
+    return (await database).insert("pacientes", paciente.toMap());
+  }
 
-  // Listar Pacientes do BD
+  Future<int> updatePaciente(Paciente paciente) async {
+    return (await database).update(
+      "pacientes",
+      paciente.toMap(),
+      where: "id = ?",
+      whereArgs: [paciente.id],
+    );
+  }
+
+  Future<int> deletePaciente(int id) async {
+    return (await database).delete(
+      "pacientes",
+      where: "id = ?",
+      whereArgs: [id],
+    );
+  }
+
+  Future<Paciente?> getPacientePorCpf(String cpf) async {
+    final maps = await (await database).query(
+      "pacientes",
+      where: "cpf = ?",
+      whereArgs: [cpf],
+      limit: 1,
+    );
+
+    if (maps.isEmpty) return null;
+    return Paciente.fromMap(maps.first);
+  }
+
+  Future<Paciente?> getPacientePorId(int id) async {
+    final maps = await (await database).query(
+      "pacientes",
+      where: "id = ?",
+      whereArgs: [id],
+      limit: 1,
+    );
+
+    if (maps.isEmpty) return null;
+    return Paciente.fromMap(maps.first);
+  }
+
   Future<List<Paciente>> getPacientes() async {
-    final List<Map<String, dynamic>> maps = await (await database).query(
+    final maps = await (await database).query(
       "pacientes",
       orderBy: "nome ASC",
     );
+
     return List.generate(maps.length, (e) => Paciente.fromMap(maps[e]));
   }
 
-  //InsertAtendimento
-  Future<int> insertAtendimento(Atendimento a) async =>
-      (await database).insert("atendimentos", a.toMap());
+  Future<int> insertAtendimento(Atendimento atendimento) async {
+    return (await database).insert("atendimentos", atendimento.toMap());
+  }
 
-  //Get Atendimentos por Paciente
+  Future<int> updateAtendimento(Atendimento atendimento) async {
+    return (await database).update(
+      "atendimentos",
+      atendimento.toMap(),
+      where: "id = ?",
+      whereArgs: [atendimento.id],
+    );
+  }
+
+  Future<int> deleteAtendimento(int id) async {
+    return (await database).delete(
+      "atendimentos",
+      where: "id = ?",
+      whereArgs: [id],
+    );
+  }
+
   Future<List<Atendimento>> getAtendimentosPorPaciente(int pacienteId) async {
-    final List<Map<String, dynamic>> maps = await (await database).query(
+    final maps = await (await database).query(
       "atendimentos",
       where: "paciente_id = ?",
       whereArgs: [pacienteId],
-      orderBy: "dataAtendimento DESC",
+      orderBy: "data ASC, hora ASC",
     );
+
     return List.generate(maps.length, (e) => Atendimento.fromMap(maps[e]));
   }
 }

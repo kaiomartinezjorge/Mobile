@@ -5,7 +5,7 @@ class Paciente {
   DateTime dataNascimento;
   String email;
   String telefone;
-  String procedimento;
+  String historicoMedico;
 
   Paciente({
     this.id,
@@ -14,18 +14,18 @@ class Paciente {
     required this.dataNascimento,
     required this.email,
     required this.telefone,
-    required this.procedimento,
+    required this.historicoMedico,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'nome': nome,
-      'CPF': cpf,
+      'cpf': cpf,
       'dataNascimento': dataNascimento.toIso8601String(),
       'email': email,
       'telefone': telefone,
-      'procedimento': procedimento,
+      'historicoMedico': historicoMedico,
     };
   }
 
@@ -33,11 +33,11 @@ class Paciente {
     return Paciente(
       id: map['id'],
       nome: map['nome'],
-      cpf: map['CPF'],
+      cpf: map['cpf'],
       dataNascimento: DateTime.parse(map['dataNascimento']),
-      email: map['email'],
+      email: map['email'] ?? '',
       telefone: map['telefone'],
-      procedimento: map['procedimento'],
+      historicoMedico: map['historicoMedico'] ?? '',
     );
   }
 }
